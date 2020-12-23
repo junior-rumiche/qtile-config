@@ -1,6 +1,8 @@
 from libqtile.config import Key, Group, Screen
 from libqtile.command import lazy
 from libqtile import layout, bar, widget , hook, widget
+from os import path
+import subprocess
 
 group_labels = [
     "🏠", "🌎", "",
@@ -47,7 +49,7 @@ layout_style = {
         'font': 'Monospace',
         'margin': 8,
         'border_width': 1,
-        'border_normal': '#a6c8ff',
+        'border_normal': '#888888',
         'border_focus' : '#ffaf12'
 }
 
@@ -118,9 +120,86 @@ for i in groups:
 screens = [
     Screen(
         top=bar.Bar([
-            widget.GroupBox(),
-            widget.WindowName()
-            ], 30,)
+             
+            widget.GroupBox(
+                active='F6F6F6', 
+                inactive='968F92',
+                this_current_screen_border='00BCD4',
+                this_screen_border='00BCD4',
+                highlight_method='line',
+                highlight_color=['1A2024', '060A0F'],
+                fontsize=14,
+            ),
+            widget.WindowName(
+                fontsize=14,
+                           
+            ),
+
+
+            widget.TextBox(
+                text="",
+                padding=-1,
+                fontsize=45,
+                foreground="#b83dff",
+                #background="#954fbd"
+
+            ),
+
+            widget.Net(
+                interface='wlp0s20f0u1',
+                interval=0.8,
+                fontsize=13,
+                background="#b83dff"
+
+
+            ),
+            widget.TextBox(
+                text="",
+                padding=-1,
+                fontsize=45,
+                background="#b83dff",
+                foreground="#954fbd"
+
+            ),
+            widget.CurrentLayout(
+                
+                fontsize=14,
+                padding=2,
+                background="#954fbd"
+    
+                
+                ),
+            widget.TextBox(
+                text="",
+                padding=-1,
+                fontsize=45,
+                foreground="#b83dff",
+                background="#954fbd"
+
+            ),
+            widget.Clock(
+                **{
+                    'format':'%H:%M:%S',
+                    #update_interval':1.0,
+                    
+                    },
+                padding=3,
+                fontsize=13,
+                linewidth=2,
+                background="#b83dff"
+
+                ),
+             widget.Volume(update_interval=0.2, emoji=True),
+            ], 23,)
         ),
   
 ]
+
+
+#autostart apps
+@hook.subscribe.startup_once
+def autostart():
+    start = path.expanduser('~/.config/qtile/autostart.sh')
+    subprocess.call([start])
+
+autostart()
