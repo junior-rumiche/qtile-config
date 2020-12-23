@@ -3,6 +3,8 @@ from libqtile.command import lazy
 from libqtile import layout, bar, widget , hook, widget
 from os import path
 import subprocess
+from settings.scripts import cpu_percent
+from settings.keys import *
 
 group_labels = [
     "🏠", "🌎", "",
@@ -65,36 +67,6 @@ layouts = [
 
 groups = []
 
-
-
-mod = "mod4"
-mod1 = "shift"
-mod2 = "control"
-auto_fullscreen = False
-
-keys = [
-        Key([mod, mod1], 'r', lazy.restart() ), #restar config
-        Key([mod, mod1], 'q', lazy.window.kill()), # kill window
-        Key([mod], 'Return', lazy.spawn("termite")), #openf termianl
-        Key([mod, mod1], "a", lazy.shutdown()), #cerrar session
-        Key([mod], 'i', lazy.spawn(' /usr/bin/rofi -show run')), #rofi menu
-        Key([mod], 'l', lazy.next_layout()),
-        Key([mod], 'd', lazy.spawn('dmenu_run')),
-
-        #Change Focus
-        Key([mod], 'h', lazy.layout.up()),
-        Key([mod], 'k', lazy.layout.down()),
-        Key([mod], 'j', lazy.layout.next()),
-
-        #moved focused windows
-        Key([mod, mod1], 'k', lazy.layout.shuffle_up()),
-        Key([mod, mod1], 'j', lazy.layout.shuffle_down()),
-
-        Key([],'Print', lazy.spawn("scrot ~/Imágenes/ScreenShot_%H%M%S.png ")),
-
-]
-# screen
-
 for i in range(len(group_names)):
     groups.append(
         Group(
@@ -129,11 +101,31 @@ screens = [
                 highlight_method='line',
                 highlight_color=['1A2024', '060A0F'],
                 fontsize=14,
+                font="UbuntuMono Nerd Font"
             ),
             widget.WindowName(
-                fontsize=14,
+                fontsize=17,
+                font="UbuntuMono Nerd Font"
                            
             ),
+             widget.TextBox(
+                text="",
+                padding=-1,
+                fontsize=45,
+                #background="#b83dff",
+                foreground="#954fbd"
+
+            ),
+            widget.Memory(
+                
+                font="UbuntuMono Nerd Font",
+                fontsize=15,
+                padding=2,
+                background="#954fbd",
+                interval=0.5
+                
+                ),
+
 
 
             widget.TextBox(
@@ -141,15 +133,16 @@ screens = [
                 padding=-1,
                 fontsize=45,
                 foreground="#b83dff",
-                #background="#954fbd"
+                background="#954fbd",
 
             ),
 
             widget.Net(
                 interface='wlp0s20f0u1',
-                interval=0.8,
-                fontsize=13,
-                background="#b83dff"
+                interval=0.3,
+                fontsize=15,
+                background="#b83dff",
+                font="UbuntuMono Nerd Font"
 
 
             ),
@@ -163,9 +156,10 @@ screens = [
             ),
             widget.CurrentLayout(
                 
-                fontsize=14,
+                fontsize=15,
                 padding=2,
-                background="#954fbd"
+                background="#954fbd",
+                font="UbuntuMono Nerd Font"
     
                 
                 ),
@@ -184,9 +178,10 @@ screens = [
                     
                     },
                 padding=3,
-                fontsize=13,
+                fontsize=15,
                 linewidth=2,
-                background="#b83dff"
+                background="#b83dff",
+                font="UbuntuMono Nerd Font"
 
                 ),
              widget.Volume(update_interval=0.2, emoji=True),
